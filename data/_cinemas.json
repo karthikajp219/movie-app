@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "58c03ac18060197ca0b52d50",
+    "name": "Event Cinemas",
+    "state": "NSW",
+    "location": "Liverpool",
+    "website": "eventcinemas.com.au/",
+    "created": "2017-03-08T17:09:21.627Z",
+    "Updated": "2017-03-08T17:09:21.627Z"
+  },
+
+  {
+    "_id": "58c03ac18060197ca0b52c51",
+    "name": "Dendy",
+    "state": "ACT",
+    "location": "Canberra",
+    "website": "https://www.dendy.com.au/",
+    "created": "2015-03-08T17:09:21.627Z",
+    "Updated": "2018-03-08T17:09:21.627Z"
+  },
+  {
+    "_id": "56c03ac18060297ca0b52c52",
+    "name": "Hoyts LUX",
+    "state": "VIC",
+    "location": "Melbourne",
+    "website": "https://www.dendy.com.au/",
+    "created": "2015-03-08T17:09:21.627Z",
+    "Updated": "2018-03-08T17:09:21.627Z"
+  },
+
+  {
+    "_id": "56c03ac18060297ca0b52c53",
+    "name": "Village",
+    "state": "TAS",
+    "location": "Hobart",
+    "website": "https://www.villagecinemas.com.au",
+    "created": "2015-03-08T17:09:21.627Z",
+    "Updated": "2018-03-08T17:09:21.627Z"
+  }
+]

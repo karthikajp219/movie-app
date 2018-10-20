@@ -1,3 +1,4 @@
+
 // @gokuvinoth
 //   create final element and append to display the full content in HTML
 let resultElement = document.querySelector("#movies");

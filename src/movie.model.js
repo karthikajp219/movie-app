@@ -1,39 +1,68 @@
+require("regenerator-runtime/runtime");
+
 const mongoose = require("mongoose");
+const tmdb = require("./tmdb");
+mongoose.Promise = global.Promise;
+const slug = require("slugs");
 
-const Schema = mongoose.Schema;
-
-//Movie Sessions
-let SessionSchema = new Schema({
-  _id: { type: Schema.ObjectId, auto: true },
-  state: { type: "String" },
-  location: { type: "String" },
-  cinema: { type: "String" },
-  sessionDateTime: { type: [Schema.Types.Date] },
-  ticketLink: { type: Schema.Types.String }
-});
+var Schema = mongoose.Schema;
 
 //Movie
-var MovieSchema = new Schema({
-  _id: { type: Schema.ObjectId, auto: true },
-  title: { type: "String", required: [true, "must have movie title"] },
-  language: { type: "String" },
-  synopsis: { type: "String" },
-  trailer: { type: "String" },
-  poster: { type: "String" },
-  leadActors: { type: "String" },
-  cast: { type: "String" },
-  crew: {
-    director: { type: "String" },
-    musicDirector: { type: "String" }
+const movieSchema = new Schema({
+  _id: { type: Schema.ObjectId, auto: true, select: true },
+  movieAPIID: {
+    type: String,
+    alias: "movieID",
+    select: false
   },
-  sessions: {
-    type: [SessionSchema]
-  }
+  title: {
+    type: String,
+    trim: true,
+    required: "Must have movie title"
+  },
+  slug: String, //for browsing movie details directly
+  language: String,
+  leadActors: [String],
+  rating: Number,
+  duration: Number,
+  tags: [String],
+  synopsis: String,
+  trailer: String,
+  genres: [String],
+  poster: String,
+  backdrop: String,
+  leadActors: [String],
+  cast: [String],
+  crew: {
+    director: [String],
+    musicDirector: [String]
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+    select: false
+  },
+  updated: {
+    type: Date,
+    default: Date.now,
+    select: false
+  },
+  __v: { type: Number, select: false }
 });
 
+// // Define  indexes
+// movieSchema.index({
+//   title: "text"
+// });
+
+// movieSchema.index({ synopsis: "text" });
+
+// function autopopulate(next) {
+//   this.populate("title");
+//   next();
+// }
+// movieSchema.pre("find", autopopulate);
+// movieSchema.pre("findOne", autopopulate);
+
 // Export the model
-//module.exports = mongoose.model("Movie", MovieSchema);
-module.exports = {
-  Movie: mongoose.model("Movie", MovieSchema),
-  Session: mongoose.model("Session", SessionSchema)
-};
+module.exports = mongoose.model("Movie", movieSchema);

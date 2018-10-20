@@ -1,111 +1,173 @@
-var { Movie } = require("./movie.model");
-var { Session } = require("./movie.model");
-const bodyParser = require("body-parser");
+import { isArray } from "util";
 
-var { getStatus } = require("./movie.response");
-const mongoose = require("mongoose");
-var retrieveMovie = require("./imdb");
+//import { Movie } from "./movie.model";
+var Movie = require("./movie.model");
+var Session = require("./session.model");
+var Cinema = require("./cinema.model");
+var bodyParser = require("body-parser");
+var tmdb = require("./tmdb");
 
-//Simple version, without validation or sanitation
-exports.test = function(req, res) {
-  console.log("in Test");
-  res.send("Test Controller for the movie endpoint");
-};
+//Returns all movies irrespective of active sessions
+export async function getAllMovies(req, res) {
+  // .select("+updated"); to included an excluded field
 
-//Lookp movie with id
-exports.movie_details = function(req, res) {
-  Movie.findById(req.params.id, function(err, movie) {
-    if (err) return next(err);
-    res.send(movie);
-  });
-};
+  const _limit = Number(req.query.limit) || 10;
+  const _skip = _limit * Number(req.query.skip) || 0;
 
-//Lookup all movies
-exports.movie_dedetailsAll = function(req, res) {
-  console.log("in /movie");
-  Movie.find(function(err, movies) {
-    if (err) return err;
-    res.status(200).json(movies);
-    //res.send(movie);
-  });
-};
+  try {
+    let movies = await Movie.find()
+      .limit(_limit)
+      .skip(_skip);
 
-//Delete movie with id
-exports.movie_delete = function(req, res) {
-  Movie.findByIdAndRemove(req.params.id, function(err) {
-    if (err) return next(err);
-    res.send("Deleted successfully!");
-  });
-};
-
-//Update movie with id
-exports.movie_update = function(req, res) {
-  Movie.findByIdAndUpdate(req.params.id, { $set: req.body }, function(
-    err,
-    movie
-  ) {
-    if (err) return next(err);
-    res.send("Product udpated.");
-  });
-};
-
-//Create new movie
-exports.movie_create = function(req, res) {
-  console.log("in product route");
-  let movie = new Movie({
-    name: req.headers.name,
-    price: req.headers.price
-    //name: "orang",
-    // price: "20"
-  });
-  console.log("product " + movie);
-
-  movie.save(function(err) {
-    if (err) {
-      return next(err);
-    }
-    res.send("Product Created successfully");
-  });
-};
-
-//Create Movies from IMDB
-exports.movie_createbulk = function(req, res) {
-  let moviename = req.body.movies;
-  retrieveMovie(moviename)
-    .then(_movie => {
-      let session = new Session({
-        _sesionid: new mongoose.Types.ObjectId(),
-        state: "NSW"
-      }); //New Session
-
-      //Movie
-      let movie = new Movie({
-        title: _movie.title,
-        language: _movie.languages,
-        synopsis: _movie.plot,
-        trailer: "",
-        poster: _movie.poster,
-        leadActors: _movie.actors,
-        cast: _movie.actors, //duplicate of leadActors
-        crew: {
-          director: _movie.director,
-          musicDirector: ""
-        },
-        sessions: [session]
-      }); //new Movie
-
-      movie.save(function(err) {
-        if (err) {
-          //return next(err);
-          console.log(`Error occured in saving movie ${movie.title} ${err}`);
-          res.send(`{Error : ${e}`);
-        }
-        res.status(200).json(`{Success : Movie  created} ${movie}`);
-      });
-    }) //then
-    .catch(e => {
-      res.status(404).json({ Error: "Movie doesnt exist" });
-
-      console.log(e);
+    //TO DO: add some sort capability to increase relevance
+    handleResponse({
+      reponse: res,
+      status: "success",
+      content: movies
     });
-};
+  } catch (error) {
+    handleResponse({
+      reponse: res,
+      status: "error",
+      message: error.message
+    });
+  }
+}
+
+// TODO: determine how to determine whats and active session
+//Returns all movies with only active sessions
+export async function getMoviesWithActiveSessions(req, res) {
+  // .select("+updated"); to included an excluded field
+
+  const _limit = Number(req.query.limit) || 10;
+  const _skip = _limit * Number(req.query.skip) || 0;
+
+  var movieSessions = [];
+  try {
+    //refactor to return on movies with live sessions
+    let movies = await Movie.find()
+      .limit(_limit)
+      .skip(_skip);
+
+    //async for (const movie of movies){}
+
+    for (const movie of movies) {
+      const sessions = await Session.find({ movie: movie._id }).populate(
+        "cinema"
+      );
+
+      var {
+        _id,
+        title,
+        language,
+        rating,
+        tags,
+        genres,
+        poster,
+        trailer,
+        duration,
+        synopsis,
+        crew,
+        leadActors,
+        cast,
+        slug
+      } = movie;
+      const movieSession = {
+        _id,
+        title,
+        language,
+        rating,
+        duration,
+        sessions,
+        tags,
+        genres,
+        poster,
+        trailer,
+        synopsis,
+        crew,
+        leadActors,
+        cast,
+        slug
+      };
+      movieSessions.push(movieSession);
+    }
+
+    handleResponse({
+      reponse: res,
+      status: "success",
+      content: movieSessions
+    });
+  } catch (error) {
+    console.log("error");
+    handleResponse({
+      reponse: res,
+      status: "error",
+      message: error.message
+    });
+  }
+}
+
+//Add one or more movies based on name/s passed in the request body
+export function createMovieByName(req, res) {
+  let movieNames = req.body.movieNames;
+  //If one movie is passed a string turn it into an array
+  movieNames = isArray(movieNames) ? movieNames : [movieNames];
+
+  let promises = [];
+  movieNames.forEach(movieName => {
+    promises.push(
+      Promise.resolve(async () => {
+        let dbMovie = await tmdb.retrieveMovie({ movieName: movieName });
+        let modelMovie = new Movie({});
+        Object.assign(modelMovie, dbMovie);
+
+        await modelMovie.save();
+        return modelMovie;
+      })
+    );
+  });
+
+  Promise.all(promises)
+    .then(movies => {
+      console.log(`Succesfully created movie/s ${movieNames.join()}`);
+
+      console.log(movies[0].title);
+      handleResponse({
+        reponse: res,
+        status: "success",
+        message: `Succesfully created movie/s ${movieNames.join()}`,
+        contentx: movies
+      });
+    })
+    .catch(err => {
+      console.log(
+        `Error creating movie/s  : ${movieNames.join()} Error :  ${err}`
+      );
+      handleResponse({
+        reponse: res,
+        status: "error",
+        message: `Error creating movie/s ${movieNames.join()} in database`
+      });
+    });
+}
+
+function handleResponse({ reponse, status, message = "", content = [] }) {
+  console.log(content);
+  //http Status
+  let httpStatus = status == "success" ? 200 : 500;
+
+  //Set override message if no message passed
+  if (!message) {
+    if (status == "success") {
+      message =
+        content.length > 0
+          ? "Successfully retrieved movies"
+          : "No movies available for the specified criteria";
+    } else if (status == "error") {
+      message = "Failure occured in retrieving movies";
+    }
+  }
+  const _status = { status, message };
+  const obj = { status: _status, content };
+  reponse.status(httpStatus).json(obj);
+}

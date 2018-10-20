@@ -1,0 +1,126 @@
+[
+  {
+    "_id": "5bc6a228b703d1d79075c26f",
+    "movieAPIID": "12345",
+    "title": "Titanic",
+    "slug": "_Titanic",
+    "language": "English",
+    "rating": 8,
+    "duration": 210,
+    "synopsis": "84 years later, a 101-year-old woman named Rose DeWitt Bukater tells the story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine, Bobby Buell and Anatoly Mikailavich on the Keldysh about her life set in April 10th 1912, on a ship called Titanic when young Rose boards the departing ship with the upper-class passengers and her mother, Ruth DeWitt Bukater, and her fiancé, Caledon Hockley. Meanwhile, a drifter and artist named Jack Dawson and his best friend Fabrizio De Rossi win third-class tickets to the ship in a game. And she explains the whole story from departure until the death of Titanic on its first and last voyage April 15th, 1912 at 2:20 in the morning.",
+    "trailer": "https://www.youtube.com/watch?v=CHekzSiZjrY",
+    "poster": "https://image.tmdb.org/t/p/w500/f9iH7Javzxokvnkiz2yHD1dcmUy.jpg",
+    "crew": {
+      "director": ["Joe Russo", "Anthony Russo"],
+      "musicDirector": ["Alan Silvestri"]
+    },
+    "leadActors": ["Robert Downey Jr.", "Chris Hemsworth", "Mark Ruffalo"],
+    "tags": ["Holloywood", "Period", "Real Storay"],
+    "genres": ["Adventure", "Science Fiction", "Action", "Fantasy"],
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Hemsworth",
+      "Mark Ruffalo",
+      "Chris Evans",
+      "Scarlett Johansson",
+      "Don Cheadle"
+    ],
+
+    "created": "2017-01-08T17:09:21.627Z",
+    "Updated": "2017-04-08T17:09:21.627Z"
+  },
+
+  {
+    "_id": "5bc6a228b703d1d79175c26f",
+    "movieAPIID": "335983",
+    "title": "Venom",
+    "slug": "Venom ",
+    "language": "English",
+    "rating": 3,
+    "duration": 120,
+    "synopsis": "When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego “Venom” to save his life.",
+    "trailer": "https://www.youtube.com/watch?v=dzxFdtWmjto",
+    "poster": "https://www.youtube.com/watch?v=dzxFdtWmjto",
+    "crew": {
+      "director": ["Ruben Fleischer"],
+      "musicDirector": ["Ludwig Göransson"]
+    },
+    "leadActors": ["Tom Hardy", "Michelle Williams", "Riz Ahmed", "Scott Haze"],
+    "tags": ["Holloywood", "Period", "Real Storay"],
+    "genres": ["Horror", "Science Fiction", "Action", "Thriller", "Comedy"],
+    "cast": [
+      "Tom Hardy",
+      "Michelle Williams",
+      "Riz Ahmed",
+      "Scott Haze",
+      "Reid Scott",
+      "Jenny Slate",
+      "Melora Walters",
+      "Chris O'Hara",
+      "Woody Harrelson",
+      "Stan Lee",
+      "Sope Aluko",
+      "Scott Deckert",
+      "Marcella Bragio",
+      "Michelle Lee",
+      "Mac Brandt",
+      "Christian Convery",
+      "Sam Medina"
+    ],
+
+    "created": "2017-01-08T17:09:21.627Z",
+    "Updated": "2017-04-08T17:09:21.627Z"
+  },
+
+  {
+    "_id": "5bc6f8ffe6977f003ebcaab5",
+    "movieAPIID": "498821",
+    "title": "Kadaikutty Singam",
+    "slug": "Kadaikutty_Singam",
+    "language": "Tamil",
+    "rating": 8,
+    "duration": 230,
+    "synopsis": "Gunasingam, a family-loving farmer who hails from a small town, tries his best to keep his big family united despite him being misunderstood by many.",
+    "trailer": "https://www.youtube.com/watch?v=6TFiphg9Af8",
+    "poster": "https://image.tmdb.org/t/p/w500/iNeOevqxOrqwWJUJS2EIuufVf0B.jpg",
+    "crew": {
+      "director": ["Pandiraj"],
+      "musicDirector": ["D. Imman"]
+    },
+    "leadActors": [
+      "Karthi",
+      "Sayesha Saigal",
+      "Priya Bhavani Shankar",
+      "Sathyaraj"
+    ],
+    "tags": ["Kollywood", "Tamil", "Farmers"],
+    "genres": ["Romance", "Comedy", "Family", "Action"],
+    "cast": [
+      "Karthi",
+      "Sayesha Saigal",
+      "Priya Bhavani Shankar",
+      "Sathyaraj",
+      "Soori",
+      "Arthana Binu",
+      "Mounica",
+      "Yuvarani",
+      "Bhanupriya",
+      "Viji Chandrasekhar",
+      "Ponvannan",
+      "Soundara Raja",
+      "Ilavarasu",
+      "John Vijay",
+      "Saravanan",
+      "G. Marimuthu",
+      "Indhu",
+      "Krishnamoorthy",
+      "Veera Samar",
+      "Sriman",
+      "Suriya ",
+      "R. Velraj"
+    ],
+
+    "created": "2017-01-08T17:09:21.627Z",
+    "Updated": "2017-04-08T17:09:21.627Z"
+  }
+]

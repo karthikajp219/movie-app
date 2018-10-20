@@ -1,10 +1,4 @@
 {
-  "env": {
-    "DB_HOST": "ds245150.mlab.com:45150",
-    "DB_USER": "movieapp",
-    "DB_PASSWORD": "movieapp123",
-    "DB_NAME": "movie-app-db",
-    "MOVIE_END_POINT": "https://vast-basin-71998.herokuapp.com",
-    "DB_URI": "mongodb://movieapp:movieapp123@ds245150.mlab.com:45150/movie-app-db"
-  }
+ 
+  
 }
